@@ -1,62 +1,45 @@
-// Get references to the input field, button, and output div
-const input = document.getElementById('ip');
-const button = document.getElementById('btn');
-const output = document.getElementById('output');
+// Get references to the input and output elements
+const input = document.getElementById("ip");
+const output = document.getElementById("output");
 
-// Add an event listener to the button
-button.addEventListener('click', () => {
+// Add a click event listener to the button
+document.getElementById("btn").addEventListener("click", transformData);
+
+function transformData() {
   // Create a promise that resolves after 2 seconds with the number in the input
   const promise1 = new Promise((resolve, reject) => {
     setTimeout(() => {
-      const number = parseInt(input.value);
+      const number = Number(input.value);
       if (isNaN(number)) {
-        reject(new Error('Invalid input'));
+        reject("Invalid input");
       } else {
         resolve(number);
       }
     }, 2000);
   });
 
-  // Chain promises to perform calculations on the number
+  // Use promise chaining to transform the data
   promise1
-    .then(number => {
-      // Print the initial number to the output div
+    .then((number) => {
       output.textContent = `Result: ${number}`;
-      // Return a promise that multiplies the number by 2 and resolves after 1 second
-      return new Promise(resolve => {
-        setTimeout(() => resolve(number * 2), 1000);
-      });
+      return number * 2; // multiply the number by 2
     })
-    .then(number => {
-      // Print the multiplied number to the output div
+    .then((number) => {
       output.textContent = `Result: ${number}`;
-      // Return a promise that subtracts 3 from the number and resolves after 1 second
-      return new Promise(resolve => {
-        setTimeout(() => resolve(number - 3), 1000);
-      });
+      return number - 3; // subtract 3 from the number
     })
-    .then(number => {
-      // Print the subtracted number to the output div
+    .then((number) => {
       output.textContent = `Result: ${number}`;
-      // Return a promise that divides the number by 2 and resolves after 1 second
-      return new Promise(resolve => {
-        setTimeout(() => resolve(number / 2), 1000);
-      });
+      return number / 2; // divide the number by 2
     })
-    .then(number => {
-      // Print the divided number to the output div
+    .then((number) => {
       output.textContent = `Result: ${number}`;
-      // Return a promise that adds 10 to the number and resolves after 1 second
-      return new Promise(resolve => {
-        setTimeout(() => resolve(number + 10), 1000);
-      });
+      return number + 10; // add 10 to the number
     })
-    .then(number => {
-      // Print the final result to the output div
-      output.textContent = `Final Result: ${number}`;
+    .then((number) => {
+      output.textContent = `Final Result: ${number}`; // update the final result
     })
-    .catch(error => {
-      // Print any errors to the output div
-      output.textContent = `Error: ${error.message}`;
+    .catch((error) => {
+      output.textContent = error; // handle any errors
     });
-});
+}
